@@ -4,10 +4,10 @@ Sub Multipleyearstockdata()
  Dim ws As Worksheet
  Dim i As Long 'row
  Dim j As Long 'column
- Dim k As Long 'second loop
+ Dim k As Long 'for second loop
  
- For Each ws In Worksheets
-    Dim lastRow As Long
+ For Each ws In Worksheets 'this is for loop to make sure one click of run can run entire worksheet
+    Dim lastRow As Long  'this is for last row
     lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
  
     Dim totalcharge As Double
@@ -46,11 +46,11 @@ Sub Multipleyearstockdata()
     groupstar = 2         'Group star from 2 for calculating which open price started
 
  
-    For i = 2 To lastRow
+    For i = 2 To lastRow  'nest for loop, for row from 2 to the last row
     
 
     
-    If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+    If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then  'if A2 is not equal to A3, then ... "(A2) and (A3) is just an example"
      
      'total sum
      totalcharge = totalcharge + ws.Cells(i, 7).Value
@@ -59,14 +59,14 @@ Sub Multipleyearstockdata()
      openprice = ws.Cells(groupstar, 3).Value
      closeprice = ws.Cells(i, 6).Value
     
-     'percent show up
+     'percentchange show up
             If openprice <> 0 Then
                 percentChange = ((closeprice - openprice) / openprice)
             Else
                 percentChange = 0
             End If
                 
-     
+     'Under these lines, it just make sure all the new value will be place into a correct row and column with correct format
      ws.Cells(j, 10).Value = Cells(i, 1).Value
      ws.Cells(j, 11).Value = closeprice - openprice
      ws.Cells(j, 11).NumberFormat = "0.00"
@@ -87,7 +87,7 @@ Sub Multipleyearstockdata()
     
 
              
-     j = j + 1
+     j = j + 1              'both of the line is just keep the loop going to the next j and groupstart
      groupstar = i + 1
           
     
@@ -104,7 +104,7 @@ Sub Multipleyearstockdata()
 
     
     
-    Else
+    Else 'if the have the same ticker name, total charge will keep adding together until its not match
      
      totalcharge = totalcharge + Cells(i, 7).Value
      closeprice = 0
@@ -119,20 +119,28 @@ Sub Multipleyearstockdata()
  Next i
  
 
-
+    'my logic here is try to find the MAX and MIN from column L and Column M and place to the correct place (column S)
+    'after i got the value, i want to use if condition, if the value is equal to the value on column L
+    'then print the exactly ticker name on Column R. Because Column S has the same value of column L or M
+    'so it is easy to find the correct ticker name
+    
+    
+    ' Last row for column L and M
     Dim lastRowL As Long
     lastRowL = ws.Cells(Rows.Count, 12).End(xlUp).Row ' For column L
     
     Dim lastRowM As Long
     lastRowM = ws.Cells(Rows.Count, 13).End(xlUp).Row ' For column M
     
+    
+    'try to get he Max and Min from the entire column L or M
     maxValue = Application.WorksheetFunction.Max(Range("L2:L" & lastRowL))
     minValue = Application.WorksheetFunction.Min(Range("L2:L" & lastRowL))
     Geatest_totalValue = Application.WorksheetFunction.Max(Range("M2:M" & lastRowM))
 
     
 
-    'Column S, presenting the Value from Column L and M
+    'Column S, presenting the Max & Min Value from Column L and M
     'this is Greatest % Increase
     ws.Cells(2, 19).Value = maxValue
     ws.Cells(2, 19).NumberFormat = "0.00%"
@@ -141,7 +149,7 @@ Sub Multipleyearstockdata()
     ws.Cells(3, 19).Value = minValue
     ws.Cells(3, 19).NumberFormat = "0.00%"
 
-    'this is 'this is Greatest Total Value
+    'this is Greatest Total Value
     ws.Cells(4, 19).Value = Geatest_totalValue
  
  
@@ -165,7 +173,9 @@ Sub Multipleyearstockdata()
         End If
     Next k
  
- 
+    
+    'when i run the code. i found out some name got cut.
+    'Hence, I googled and found this code to change the column width to make the name and value be able to see fully.
     ws.Columns("M").ColumnWidth = 20
     ws.Columns("Q").ColumnWidth = 21
     ws.Columns("K").ColumnWidth = 15
