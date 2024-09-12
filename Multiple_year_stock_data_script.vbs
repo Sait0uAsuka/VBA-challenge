@@ -91,18 +91,6 @@ Sub Multipleyearstockdata()
      groupstar = i + 1
           
     
-
-'    ' for telling the Correct Ticker corresponding to the Greatest or Lowest Value
-'
-'        If Cells(2, 19).Value = Cells(j, 12).Value Then
-'            Cells(2, 18).Value = Cells(j, 10).Value
-'        ElseIf Cells(3, 19).Value = Cells(j, 12).Value Then
-'            Cells(3, 18).Value = Cells(j, 10).Value
-'        ElseIf Cells(4, 19).Value = Cells(j, 13).Value Then
-'            Cells(4, 18).Value = Cells(j, 10).Value
-'        End If
-
-    
     
     Else 'if the have the same ticker name, total charge will keep adding together until its not match
      
