@@ -1,6 +1,5 @@
 Sub Multipleyearstockdata()
 
- 
  Dim ws As Worksheet
  Dim i As Long 'row
  Dim j As Long 'column
@@ -8,7 +7,7 @@ Sub Multipleyearstockdata()
  
  For Each ws In Worksheets 'this is for loop to make sure one click of run can run entire worksheet
     Dim lastRow As Long  'this is for last row
-    lastRow = ws.Cells(Rows.Count, 1).End(xlUp).Row
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
  
     Dim totalcharge As Double
     totalcharge = 0
@@ -25,8 +24,6 @@ Sub Multipleyearstockdata()
     Dim maxValue As Double
     Dim minValue As Double
     Dim Geatest_totalValue As Double
-    
-
  
 
  
@@ -67,7 +64,7 @@ Sub Multipleyearstockdata()
             End If
                 
      'Under these lines, it just make sure all the new value will be place into a correct row and column with correct format
-     ws.Cells(j, 10).Value = Cells(i, 1).Value
+     ws.Cells(j, 10).Value = ws.Cells(i, 1).Value
      ws.Cells(j, 11).Value = closeprice - openprice
      ws.Cells(j, 11).NumberFormat = "0.00"
      ws.Cells(j, 12).Value = percentChange
@@ -78,7 +75,7 @@ Sub Multipleyearstockdata()
     'for colour changing
             If ws.Cells(j, 11).Value < 0 Then
                 ws.Cells(j, 11).Interior.ColorIndex = 3
-            ElseIf Cells(j, 11).Value > 0 Then
+            ElseIf ws.Cells(j, 11).Value > 0 Then
                 ws.Cells(j, 11).Interior.ColorIndex = 4
             Else
                 ws.Cells(j, 11).Interior.ColorIndex = 0
@@ -89,20 +86,15 @@ Sub Multipleyearstockdata()
              
      j = j + 1              'both of the line is just keep the loop going to the next j and groupstart
      groupstar = i + 1
-          
     
     
     Else 'if the have the same ticker name, total charge will keep adding together until its not match
      
-     totalcharge = totalcharge + Cells(i, 7).Value
+     totalcharge = totalcharge + ws.Cells(i, 7).Value
      closeprice = 0
      openprice = 0
     
     End If
-    
-
-    
-    
     
  Next i
  
@@ -115,16 +107,16 @@ Sub Multipleyearstockdata()
     
     ' Last row for column L and M
     Dim lastRowL As Long
-    lastRowL = ws.Cells(Rows.Count, 12).End(xlUp).Row ' For column L
+    lastRowL = ws.Cells(ws.Rows.Count, 12).End(xlUp).Row ' For column L
     
     Dim lastRowM As Long
-    lastRowM = ws.Cells(Rows.Count, 13).End(xlUp).Row ' For column M
+    lastRowM = ws.Cells(ws.Rows.Count, 13).End(xlUp).Row ' For column M
     
     
     'try to get he Max and Min from the entire column L or M
-    maxValue = Application.WorksheetFunction.Max(Range("L2:L" & lastRowL))
-    minValue = Application.WorksheetFunction.Min(Range("L2:L" & lastRowL))
-    Geatest_totalValue = Application.WorksheetFunction.Max(Range("M2:M" & lastRowM))
+    maxValue = Application.WorksheetFunction.Max(ws.Range("L2:L" & lastRowL))
+    minValue = Application.WorksheetFunction.Min(ws.Range("L2:L" & lastRowL))
+    Geatest_totalValue = Application.WorksheetFunction.Max(ws.Range("M2:M" & lastRowM))
 
     
 
@@ -139,9 +131,6 @@ Sub Multipleyearstockdata()
 
     'this is Greatest Total Value
     ws.Cells(4, 19).Value = Geatest_totalValue
- 
- 
- 
  
 
     ' for telling the Correct Ticker corresponding to the Greatest or Lowest Value
@@ -173,6 +162,4 @@ Sub Multipleyearstockdata()
  Next ws
 
 End Sub
-
-
 
